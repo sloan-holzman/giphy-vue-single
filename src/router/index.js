@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 import Test from '@/components/Test'
 import Navbar from '@/components/Navbar'
+import Searchpage from '@/components/Searchpage'
 import Vuetify from 'vuetify'
 
 
@@ -23,8 +24,8 @@ export default new Router({
     },
     {
       path: '/',
-      name: 'Navbar',
-      component: Navbar
+      name: 'Searchpage',
+      component: Searchpage
     }
   ]
 })
