@@ -25,13 +25,7 @@
           single-line
         ></v-select>
       </v-flex>
-      <v-btn flat v-on:click.prevent="$emit('fetchRandomResult')">Submit</v-btn>
-      <!-- <v-btn
-      @click="submit"
-      :disabled="!valid"
-    >
-      submit
-    </v-btn> -->
+      <v-btn flat v-on:click.prevent="enterSettings">Submit</v-btn>
     </v-layout>
   </v-container>
 </template>
@@ -51,6 +45,12 @@ export default {
         {text: 'PG-13', value: 'pg-13'},
         {text: 'R', value: 'r'}
       ]
+    }
+  },
+  methods: {
+    enterSettings: function() {
+      this.$emit('changeSettings', this.settings)
+      this.$emit('exitSettings')
     }
   }
 }

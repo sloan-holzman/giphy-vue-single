@@ -1,7 +1,7 @@
 <template>
   <div id="searchpage">
     <Navbar v-model="searchText" @fetchSearchResults="fetchSearchResults" @fetchRandomResult="fetchRandomResult" @fetchTrendingResults="fetchTrendingResults" @goToSettings="goToSettings"/>
-    <div v-if="!searched && !settingsScreen">
+    <div v-if="!searched && !settingsScreen && !searching">
       <h1>Giphy Search!</h1>
       <h2>By Sloan Holzman</h2>
     </div>
@@ -10,8 +10,13 @@
       <p className="italic">Click on any GIF for full size and details</p>
       <Grid :results="results"/>
     </div>
+    <div v-if="searching">
+      <br>
+      <p>Loading...</p>
+      <v-progress-circular indeterminate :size="120" :width="7" color="primary"></v-progress-circular>
+    </div>
     <div v-if="settingsScreen">
-      <Settings :currentSettings="settings"/>
+      <Settings :currentSettings="settings" @changeSettings="changeSettings" @exitSettings="exitSettings"/>
     </div>
   </div>
 </template>
@@ -95,9 +100,16 @@ export default {
       this.searched = false
       this.results = []
     },
+    changeSettings: function(settings) {
+      this.settings = settings
+      console.log(this.settings)
+    },
     goToSettings: function(){
       this.clearSearch()
       this.settingsScreen = true
+    },
+    exitSettings: function(){
+      this.settingsScreen = false
     }
   }
 }
@@ -113,6 +125,10 @@ export default {
   align-content: center;
   justify-content: flex-start;
   text-align: center;
+}
+
+h1 {
+  margin-top: 3vh;
 }
 
 </style>

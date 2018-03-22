@@ -16,6 +16,7 @@
     <v-list>
       <v-list-tile v-on:click.prevent="$emit('fetchRandomResult')">Random</v-list-tile>
       <v-list-tile v-on:click.prevent="$emit('fetchTrendingResults')">Trending</v-list-tile>
+      <v-list-tile v-on:click.prevent="$emit('goToSettings')">Settings</v-list-tile>
     </v-list>
   </v-menu>
   </v-toolbar>
