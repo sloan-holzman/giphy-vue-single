@@ -1,13 +1,17 @@
 <template>
-  <div>
-    <Navbar v-model="searchText" @fetchSearchResults="fetchSearchResults" @fetchRandomResult="fetchRandomResult" @fetchTrendingResults="fetchTrendingResults"></Navbar>
-    <div v-if="!searched">
+  <div id="searchpage">
+    <Navbar v-model="searchText" @fetchSearchResults="fetchSearchResults" @fetchRandomResult="fetchRandomResult" @fetchTrendingResults="fetchTrendingResults" @goToSettings="goToSettings"/>
+    <div v-if="!searched && !settingsScreen">
       <h1>Giphy Search!</h1>
       <h2>By Sloan Holzman</h2>
     </div>
     <div v-if="searched">
       <h3 className="search-results__explanation">Search results for {{searchText}}<button v-on:click.prevent="clearSearch">[clear]</button></h3>
       <p className="italic">Click on any GIF for full size and details</p>
+      <Grid :results="results"/>
+    </div>
+    <div v-if="settingsScreen">
+      <Settings :currentSettings="settings"/>
     </div>
   </div>
 </template>
@@ -15,17 +19,20 @@
 <script>
 
 import Navbar from './Navbar.vue'
+import Grid from './Grid.vue'
+import Settings from './Settings.vue'
 import GiphyApi from '../api/GiphyApi.js'
 
 
 export default {
   name: 'Searchpage',
   components: {
-    Navbar
+    Navbar, Grid, Settings
   },
   data () {
     return {
       searchText: '',
+      settingsScreen: false,
       searched: false,
       searching: false,
       results: [],
@@ -39,6 +46,7 @@ export default {
     fetchSearchResults: function(searchText){
       console.log("search!")
       this.searching = true
+      this.settingsScreen = false
       this.searchText = searchText
       let joinedSearchText = this.searchText.split(" ").join("+")
       GiphyApi.fetchSearchResults(this.settings.limit, this.rating, joinedSearchText)
@@ -54,6 +62,7 @@ export default {
     },
     fetchTrendingResults: function(){
       this.searching = true
+      this.settingsScreen = false
       this.searchText = "trending"
       GiphyApi.fetchTrendingResults(this.settings.limit, this.rating)
       .then(response => {
@@ -68,6 +77,7 @@ export default {
     },
     fetchRandomResult: function(){
       this.searching = true
+      this.settingsScreen = false
       this.searchText = "random"
       GiphyApi.fetchRandomResult(this.rating)
       .then(response => {
@@ -84,6 +94,10 @@ export default {
       this.searchText = ''
       this.searched = false
       this.results = []
+    },
+    goToSettings: function(){
+      this.clearSearch()
+      this.settingsScreen = true
     }
   }
 }
@@ -91,5 +105,14 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
+
+#searchpage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+  justify-content: flex-start;
+  text-align: center;
+}
 
 </style>

@@ -7,6 +7,7 @@
     <v-toolbar-items class="hidden-sm-and-down">
     <v-btn flat v-on:click.prevent="$emit('fetchRandomResult')">Random</v-btn>
     <v-btn flat v-on:click.prevent="$emit('fetchTrendingResults')">Trending</v-btn>
+    <v-btn flat v-on:click.prevent="$emit('goToSettings')">Settings</v-btn>
   </v-toolbar-items>
   <v-menu :nudge-width="100" class="hidden-md-and-up">
     <v-toolbar-title slot="activator">
