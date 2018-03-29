@@ -1,6 +1,6 @@
 <template>
   <div id="searchpage">
-    <Navbar v-model="searchText" @fetchSearchResults="fetchSearchResults" @fetchRandomResult="fetchRandomResult" @fetchTrendingResults="fetchTrendingResults" @goToSettings="goToSettings"/>
+    <Navbar v-model="searchText" @fetchSearchResults="fetchSearchResults" @fetchRandomResult="fetchRandomResult" @fetchTrendingResults="fetchTrendingResults" @goToSettings="goToSettings" @goToFavorites="goToFavorites"/>
     <div v-if="!searched && !settingsScreen && !searching">
       <h1>Giphy Search!</h1>
       <h2>By Sloan Holzman</h2>
@@ -18,6 +18,9 @@
     <div v-if="settingsScreen">
       <Settings :currentSettings="settings" @changeSettings="changeSettings" @exitSettings="exitSettings"/>
     </div>
+    <div v-if="favoritesScreen">
+      <Favorites/>
+    </div>
   </div>
 </template>
 
@@ -26,17 +29,18 @@
 import Navbar from './Navbar.vue'
 import Grid from './Grid.vue'
 import Settings from './Settings.vue'
+import Favorites from './Favorites.vue'
 import GiphyApi from '../api/GiphyApi.js'
-
 
 export default {
   name: 'Searchpage',
   components: {
-    Navbar, Grid, Settings
+    Navbar, Grid, Settings, Favorites
   },
   data () {
     return {
       searchText: '',
+      favoritesScreen: false,
       settingsScreen: false,
       searched: false,
       searching: false,
@@ -52,6 +56,7 @@ export default {
       console.log("search!")
       this.searching = true
       this.settingsScreen = false
+      this.favoritesScreen = false
       this.searchText = searchText
       let joinedSearchText = this.searchText.split(" ").join("+")
       GiphyApi.fetchSearchResults(this.settings.limit, this.rating, joinedSearchText)
@@ -68,6 +73,7 @@ export default {
     fetchTrendingResults: function(){
       this.searching = true
       this.settingsScreen = false
+      this.favoritesScreen = false
       this.searchText = "trending"
       GiphyApi.fetchTrendingResults(this.settings.limit, this.rating)
       .then(response => {
@@ -83,6 +89,7 @@ export default {
     fetchRandomResult: function(){
       this.searching = true
       this.settingsScreen = false
+      this.favoritesScreen = false
       this.searchText = "random"
       GiphyApi.fetchRandomResult(this.rating)
       .then(response => {
@@ -98,6 +105,7 @@ export default {
     clearSearch: function(){
       this.searchText = ''
       this.searched = false
+      this.favoritesScreen = false
       this.results = []
     },
     changeSettings: function(settings) {
@@ -110,6 +118,13 @@ export default {
     },
     exitSettings: function(){
       this.settingsScreen = false
+    },
+    goToFavorites: function(){
+      this.clearSearch()
+      this.favoritesScreen = true
+    },
+    exitFavorites: function(){
+      this.favoritesScreen = false
     }
   }
 }

@@ -4,6 +4,7 @@ import HelloWorld from '@/components/HelloWorld'
 import Test from '@/components/Test'
 import Navbar from '@/components/Navbar'
 import Searchpage from '@/components/Searchpage'
+// import FavoritePage from '@/components/FavoritePage'
 import Vuetify from 'vuetify'
 
 
@@ -17,11 +18,11 @@ export default new Router({
     //   name: 'HelloWorld',
     //   component: HelloWorld
     // },
-    {
-      path: '/test',
-      name: 'Test',
-      component: Test
-    },
+    // {
+    //   path: '/favorites',
+    //   name: 'Favorites',
+    //   component: FavoritePage
+    // },
     {
       path: '/',
       name: 'Searchpage',

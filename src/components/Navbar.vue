@@ -7,6 +7,7 @@
     <v-toolbar-items class="hidden-sm-and-down">
     <v-btn flat v-on:click.prevent="$emit('fetchRandomResult')">Random</v-btn>
     <v-btn flat v-on:click.prevent="$emit('fetchTrendingResults')">Trending</v-btn>
+    <v-btn flat v-on:click.prevent="$emit('goToFavorites')">Favorites</v-btn>
     <v-btn flat v-on:click.prevent="$emit('goToSettings')">Settings</v-btn>
   </v-toolbar-items>
   <v-menu :nudge-width="100" class="hidden-md-and-up">
@@ -16,6 +17,7 @@
     <v-list>
       <v-list-tile v-on:click.prevent="$emit('fetchRandomResult')">Random</v-list-tile>
       <v-list-tile v-on:click.prevent="$emit('fetchTrendingResults')">Trending</v-list-tile>
+      <v-list-tile v-on:click.prevent="$emit('goToFavorites')">Favorites</v-list-tile>
       <v-list-tile v-on:click.prevent="$emit('goToSettings')">Settings</v-list-tile>
     </v-list>
   </v-menu>
