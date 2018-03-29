@@ -53,54 +53,40 @@ export default {
   },
   methods: {
     fetchSearchResults: function(searchText){
-      console.log("search!")
+      this.setSearchState(searchText)
+      let joinedSearchText = this.searchText.split(" ").join("+")
+      GiphyApi.fetchSearchResults(this.settings.limit, this.rating, joinedSearchText)
+      .then(this.loadResponse)
+      .catch(err => console.log(err))
+    },
+    fetchTrendingResults: function(){
+      this.setSearchState("trending")
+      GiphyApi.fetchTrendingResults(this.settings.limit, this.rating)
+      .then(this.loadResponse)
+      .catch(err => console.log(err))
+    },
+    fetchRandomResult: function(){
+      this.setSearchState("random")
+      GiphyApi.fetchRandomResult(this.rating)
+      .then(this.loadResponse)
+      .catch(err => console.log(err))
+    },
+    loadResponse: function(response){
+      if (response.status === 200) {
+        this.searched = true
+        this.searching = false
+        if (response.data.data.constructor === Array) {
+          this.results = response.data.data.map(item => {return {id: item.id, imgUrl: item.images.downsized.url, title: item.title}})
+        } else {
+          this.results = [{id: response.data.data.id, imgUrl: response.data.data.images.downsized.url, title: response.data.data.title}]
+        }
+      }
+    },
+    setSearchState: function(searchText){
       this.searching = true
       this.settingsScreen = false
       this.favoritesScreen = false
       this.searchText = searchText
-      let joinedSearchText = this.searchText.split(" ").join("+")
-      GiphyApi.fetchSearchResults(this.settings.limit, this.rating, joinedSearchText)
-      .then(response => {
-        if (response.status === 200) {
-          this.searched = true
-          this.searching = false
-          this.results = response.data.data
-        }
-        console.log(this.results)
-      })
-      .catch(err => console.log(err))
-    },
-    fetchTrendingResults: function(){
-      this.searching = true
-      this.settingsScreen = false
-      this.favoritesScreen = false
-      this.searchText = "trending"
-      GiphyApi.fetchTrendingResults(this.settings.limit, this.rating)
-      .then(response => {
-        console.log(response)
-        if (response.status === 200) {
-          this.searched = true
-          this.searching = false
-          this.results = response.data.data
-        }
-      })
-      .catch(err => console.log(err))
-    },
-    fetchRandomResult: function(){
-      this.searching = true
-      this.settingsScreen = false
-      this.favoritesScreen = false
-      this.searchText = "random"
-      GiphyApi.fetchRandomResult(this.rating)
-      .then(response => {
-        console.log(response)
-        if (response.status === 200) {
-          this.searched = true
-          this.searching = false
-          this.results = [response.data.data]
-        }
-      })
-      .catch(err => console.log(err))
     },
     clearSearch: function(){
       this.searchText = ''

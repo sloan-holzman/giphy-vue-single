@@ -11,7 +11,7 @@
             >
               <v-card>
                 <v-card-media
-                  :src="result.images.downsized.url"
+                  :src="result.imgUrl"
                   height="200px"
                 >
                   <v-container fill-height fluid>
@@ -43,7 +43,7 @@
     name: 'Grid',
     props: ['results']
   }
-  
+
 </script>
 
 <style>
