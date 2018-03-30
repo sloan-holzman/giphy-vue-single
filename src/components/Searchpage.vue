@@ -1,7 +1,7 @@
 <template>
   <div id="searchpage">
     <Navbar v-model="searchText" @fetchSearchResults="fetchSearchResults" @fetchRandomResult="fetchRandomResult" @fetchTrendingResults="fetchTrendingResults" @goToSettings="goToSettings" @goToFavorites="goToFavorites"/>
-    <div v-if="!searched && !settingsScreen && !searching">
+    <div v-if="!searched && !settingsScreen && !searching && !favoritesScreen">
       <h1>Giphy Search!</h1>
       <h2>By Sloan Holzman</h2>
     </div>
@@ -75,7 +75,7 @@ export default {
     },
     addFavorite: function(gif){
       FavoritesApi.addFavorite(gif)
-      .then(this.loadResponse)
+      .then(() => console.log("success!"))
       .catch(err => console.log(err))
     },
     loadResponse: function(response){

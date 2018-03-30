@@ -6,6 +6,7 @@
       <v-progress-circular indeterminate :size="120" :width="7" color="primary"></v-progress-circular>
     </div>
     <div v-if="searched">
+      <br>
       <Grid :results="results" @onClickFavoriteIcon="deleteFavorite" iconColor="red"/>
     </div>
   </div>
@@ -30,13 +31,16 @@ export default {
     }
   },
   created: function() {
+    console.log('loaded!')
     this.fetchFavorites();
   },
   methods: {
     fetchFavorites: function() {
       this.searching = true
+      console.log("fetching!")
       FavoritesApi.fetchFavorites()
       .then(results => {
+        console.log("found favorites!")
         this.results = results.data
         this.searched = true
         this.searching = false
@@ -46,6 +50,7 @@ export default {
     deleteFavorite: function(gif) {
       this.searching = true
       FavoritesApi.deleteFavorite(gif)
+      .then(val => console.log(val))
       .then(() => FavoritesApi.fetchFavorites())
       .then(results => {
         this.results = results.data

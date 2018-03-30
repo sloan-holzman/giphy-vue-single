@@ -9,7 +9,6 @@ class FavoritesApi {
   }
 
   static addFavorite(gif) {
-    console.log(gif)
      return axios({
        method: "POST",
        url: `http://localhost:3030/gifs`,
@@ -18,7 +17,6 @@ class FavoritesApi {
   }
 
   static deleteFavorite(gif) {
-    console.log(gif._id)
      return axios({
        method: "DELETE",
        url: `http://localhost:3030/gifs/${gif._id}`
