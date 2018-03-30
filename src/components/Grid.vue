@@ -24,8 +24,9 @@
                 </v-card-media>
                 <v-card-actions>
                   <v-spacer></v-spacer>
-                  <v-btn icon>
-                    <v-icon>favorite</v-icon>
+                  <!-- <v-btn icon v-on:click.prevent="$emit('onClickFavoriteIcon', {id: result.id, imgUrl: result.imgUrl, title: result.title})"> -->
+                  <v-btn icon v-on:click.prevent="$emit('onClickFavoriteIcon', result)">
+                    <v-icon :color=iconColor>favorite</v-icon>
                   </v-btn>
                 </v-card-actions>
               </v-card>
@@ -41,7 +42,7 @@
 
   export default {
     name: 'Grid',
-    props: ['results']
+    props: ['results', 'iconColor']
   }
 
 </script>

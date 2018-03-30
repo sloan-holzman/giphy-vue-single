@@ -1,6 +1,13 @@
 <template>
-  <div v-if="searched">
-    <Grid :results="results"/>
+  <div>
+    <div v-if="searching">
+      <br>
+      <p>Loading...</p>
+      <v-progress-circular indeterminate :size="120" :width="7" color="primary"></v-progress-circular>
+    </div>
+    <div v-if="searched">
+      <Grid :results="results" @onClickFavoriteIcon="deleteFavorite" iconColor="red"/>
+    </div>
   </div>
 </template>
 
@@ -30,8 +37,18 @@ export default {
       this.searching = true
       FavoritesApi.fetchFavorites()
       .then(results => {
-        console.log(results)
-        this.results = results.data.data
+        this.results = results.data
+        this.searched = true
+        this.searching = false
+      })
+      .catch(err => console.log(err))
+    },
+    deleteFavorite: function(gif) {
+      this.searching = true
+      FavoritesApi.deleteFavorite(gif)
+      .then(() => FavoritesApi.fetchFavorites())
+      .then(results => {
+        this.results = results.data
         this.searched = true
         this.searching = false
       })

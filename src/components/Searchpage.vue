@@ -8,7 +8,7 @@
     <div v-if="searched">
       <h3 className="search-results__explanation">Search results for {{searchText}}<button v-on:click.prevent="clearSearch">[clear]</button></h3>
       <p className="italic">Click on any GIF for full size and details</p>
-      <Grid :results="results"/>
+      <Grid :results="results" @onClickFavoriteIcon="addFavorite"  iconColor="black"/>
     </div>
     <div v-if="searching">
       <br>
@@ -31,6 +31,8 @@ import Grid from './Grid.vue'
 import Settings from './Settings.vue'
 import Favorites from './Favorites.vue'
 import GiphyApi from '../api/GiphyApi.js'
+import FavoritesApi from '../api/FavoritesApi.js'
+
 
 export default {
   name: 'Searchpage',
@@ -68,6 +70,11 @@ export default {
     fetchRandomResult: function(){
       this.setSearchState("random")
       GiphyApi.fetchRandomResult(this.rating)
+      .then(this.loadResponse)
+      .catch(err => console.log(err))
+    },
+    addFavorite: function(gif){
+      FavoritesApi.addFavorite(gif)
       .then(this.loadResponse)
       .catch(err => console.log(err))
     },
