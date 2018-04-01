@@ -7,17 +7,24 @@
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",
-    "build": "node build/build.js"
+    "build": "node build/build.js",
+    "test": "jest"
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "babel-jest": "^22.4.3",
+    "babel-regenerator-runtime": "^6.5.0",
+    "faker": "^4.1.0",
+    "jest": "^22.4.3",
+    "puppeteer": "^1.2.0",
+    "regenerator-runtime": "^0.11.1",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
     "vuetify": "^1.0.10"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
-    "babel-core": "^6.22.1",
+    "babel-core": "^6.26.0",
     "babel-helper-vue-jsx-merge-props": "^2.0.3",
     "babel-loader": "^7.1.1",
     "babel-plugin-syntax-jsx": "^6.18.0",
